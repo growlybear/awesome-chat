@@ -1,5 +1,11 @@
 extends layout
 
+block append head
+  script(src="/socket.io/socket.io.js")
+  script(src="/javascripts/chat.js")
+
 block content
-  h1= title
-  p Welcome to #{title}
+  section#chatroom
+    div#messages
+    input#message(type="text", placeholder="Enter your message here")
+    input#send(type="button", value="Send")

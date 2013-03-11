@@ -1,7 +1,14 @@
 doctype 5
 html
-  head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+  block head
+    head
+      title= title
+      link(rel='stylesheet', href='/stylesheets/style.css')
+      script(src="javascripts/vendor/jquery-1.9.1.js")
   body
+    header#banner
+      h1 Awesome Chat
+
     block content
+
+    footer Hope you enjoy your stay here
