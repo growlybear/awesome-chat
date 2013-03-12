@@ -19,6 +19,13 @@ socket.on('name_set', function (data) {
         socket.send(JSON.stringify(data));
         $('#message').val('');
     });
+
+    socket.on('user_entered', function (user) {
+        $('#messages').append(
+            '<div class="systemMessage">' + user.name +
+            ' has joined the conversation</div>'
+        );
+    });
 });
 
 socket.on('message', function (data) {

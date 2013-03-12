@@ -28,6 +28,7 @@ exports.initialize = function (server) {
                     type: 'serverMessage',
                     message: 'Welcome to the most interesting chat room on earth!'
                 }));
+                socket.broadcast.emit('user_entered', data);
             });
         });
     });
