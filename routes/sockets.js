@@ -6,8 +6,20 @@ exports.initialize = function (server) {
 
     io = io.listen(server);
 
-    io.sockets.on('connection', function (socket) {
+    var chatInfra = io.of('/chat_infra').on('connection', function (socket) {
+        socket.on('set_name', function (data) {
+            socket.set('nickname', data.name, function () {
+                socket.emit('name_set', data);
+                socket.send(JSON.stringify({
+                    type: 'serverMessage',
+                    message: 'Welcome to the most interesting chat room on earth!'
+                }));
+                socket.broadcast.emit('user_entered', data);
+            });
+        });
+    });
 
+    var chatCom = io.of('/chat_com').on('connection', function (socket) {
         socket.on('message', function (message) {
             message = JSON.parse(message);
 
@@ -19,17 +31,6 @@ exports.initialize = function (server) {
                     socket.send(JSON.stringify(message));
                 });
             }
-        });
-
-        socket.on('set_name', function (data) {
-            socket.set('nickname', data.name, function () {
-                socket.emit('name_set', data);
-                socket.send(JSON.stringify({
-                    type: 'serverMessage',
-                    message: 'Welcome to the most interesting chat room on earth!'
-                }));
-                socket.broadcast.emit('user_entered', data);
-            });
         });
     });
 };
